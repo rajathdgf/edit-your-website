@@ -17,7 +17,20 @@ Copyright: ©MdRasen -->
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" id="content" contenteditable="false">
+            <form id="loginForm" style="display: none;">
+        <h2>Login</h2>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <input type="submit" value="Login">
+    </form>
+    <div id="hiddenSection" style="display: none;">
+    <button id="editButton">Edit</button>
+    <button id="saveButton" style="display:none;">Save Changes</button>
+    <button id="clearButton">Clear Storage</button>
+    </div>
     <!-- Header section -->
     <section id="header">
       <div class="header-top">
@@ -334,6 +347,74 @@ Copyright: ©MdRasen -->
         </p>
       </div>
     </section>
+    
+    <!-- <script src="script.js"></script> -->
+    <script>
+        // Check if there is saved content in local storage
+var savedContent = localStorage.getItem("content");
+if (savedContent) {
+    document.getElementById("content").innerHTML = savedContent;
+}
+
+document.getElementById("editButton").addEventListener("click", function() {
+    var content = document.getElementById("content");
+    var editButton = document.getElementById("editButton");
+    var saveButton = document.getElementById("saveButton");
+
+    if (content.contentEditable === "false") {
+        content.contentEditable = "true";
+        editButton.innerText = "Cancel";
+        saveButton.style.display = "inline-block";
+    } else {
+        content.contentEditable = "false";
+        editButton.innerText = "Edit";
+        saveButton.style.display = "none";
+    }
+});
+
+document.getElementById("saveButton").addEventListener("click", function() {
+    var content = document.getElementById("content");
+    var editButton = document.getElementById("editButton");
+    var saveButton = document.getElementById("saveButton");
+
+    content.contentEditable = "false";
+    editButton.innerText = "Edit";
+    saveButton.style.display = "none";
+
+    // Save the changes to local storage
+    localStorage.setItem("content", content.innerHTML);
+    alert("Changes saved!");
+});
+
+document.getElementById("clearButton").addEventListener("click", function() {
+    localStorage.removeItem("content");
+    alert("Local storage cleared!");
+});
+
+    </script>
+    <script>
+        
+// Check if the URL contains the section id
+if (window.location.href.includes("#admin")) {
+    document.getElementById("loginForm").style.display = "block";
+}
+
+// Handle login form submission
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    // Check if login is successful (for demonstration purposes, use a hardcoded username and password)
+    // if (username === "your_username" && password === "your_password") {
+    if (username === "MARS" && password === "2024") {
+        document.getElementById("hiddenSection").style.display = "block";
+        alert("Login successful!");
+    } else {
+        alert("Login failed. Please try again.");
+    }
+});
+
   </div>
 
   <!-- Custom JS -->
